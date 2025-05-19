@@ -1,0 +1,212 @@
+@charset "UTF-8";
+
+/* color */
+$color-text: #181717;
+
+$color-bg1: #f5c243;
+$color-bg2: #f4f3ee;
+$color-bg3: #d4854d;
+
+$color-heading1: #fff;
+$color-heading2: #000;
+
+$color-btnBg: #fff;
+$color-btnTx: #000;
+$color-btnBg2: #a44a3f;
+$color-btnTx2: #fff;
+
+$color-highlightTx: #a44a3f;
+$color-highlightBg: #fff;
+
+$color-icons: #f5c243;
+$color-iconsTx: #000;
+
+$color-disabledBg1: #eee;
+$color-disabledTx1: #999;
+$color-disabledBg2: #ccc;
+$color-disabledTx2: #aaa;
+
+/* font */
+$font-base: "Helvetica Neue", sans-serif;
+
+$font-size-base: 16px;
+$font-size-lg: 18px;
+$font-size-sm: 14px;
+
+$line-height-base: 1.5;
+
+/* Space */
+$space-xs: 10px;
+$space-sm: 30px;
+$space-md: 16px;
+$space-lg: 50px;
+$space-xl: 100px;
+
+/* breakpoints */
+$breakpoints: (
+  "SP": "(350px <= width)",
+  "TB": "(700px <= width)",
+  "PC": "(1100px <= width)",
+  "else": "(1200px <= width)"
+) !default;
+
+@mixin m-query($breakpoint) {
+  @media #{map-get($breakpoints, $breakpoint)} {
+    @content;
+  }
+}
+
+// inner
+@mixin m-inner(
+  $w: (
+    350/390
+  ) * 100%,
+  $mw: 1200px
+) {
+  width: $w;
+  max-width: $mw;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@mixin m-flex($a: center, $j: space-between) {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: $j;
+  align-items: $a;
+}
+
+@function f-rem($value) {
+  @return ($value/16) + rem;
+}
+
+// base
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: $font-base;
+  font-size: $font-size-base;
+  color: $color-text;
+  background-color: $color-bg2;
+  line-height: $line-height-base;
+}
+
+body::selection {
+  background-color: $color-highlightBg;
+  color: $color-highlightTx;
+}
+
+// タイポグラフィ
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: $color-heading2;
+  font-weight: bold;
+  line-height: 1.25;
+  margin: 0 0 $space-sm;
+}
+
+// 基本 form 要素
+input,
+textarea,
+select {
+  font: inherit;
+  color: $color-text;
+  background-color: $color-highlightBg;
+  border: 1px solid $color-icons;
+  padding: $space-xs $space-sm;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &::placeholder {
+    color: $color-iconsTx;
+    opacity: 0.7;
+    font-style: italic;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $color-btnBg2;
+    box-shadow: 0 0 0 2px rgba($color-btnBg2, 0.2); // color-btnBg2 の薄い影
+  }
+
+  &:disabled {
+    background-color: $color-disabledBg1;
+    color: $color-disabledTx1;
+    cursor: not-allowed;
+  }
+}
+
+.main__form-group {
+  margin-bottom: $space-lg;
+}
+
+.main__submit {
+  width: 300px;
+  display: inline-block;
+  padding: 0.75em 1.5em;
+  font-size: 1rem;
+  font-weight: bold;
+  text-align: center;
+  color: $color-btnTx2; // ボタン内のテキスト色
+  background-color: $color-btnBg2; // ボタンの背景色
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+
+  &:hover,
+  &:focus {
+    background-color: darken($color-btnBg2, 5%);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    outline: none;
+  }
+
+  &:active {
+    background-color: darken($color-btnBg2, 10%);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+
+  &:disabled {
+    background-color: $color-disabledBg2;
+    color: $color-disabledTx2;
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+// header
+header {
+  background-color: $color-bg1;
+  padding: $space-sm $space-md;
+}
+
+.header__inner {
+  @include m-inner();
+}
+
+.header__title {
+  font-size: f-rem(32);
+  color: $color-heading1;
+}
+
+// main
+main {
+  padding: $space-lg $space-md;
+  background-color: $color-bg2;
+}
+
+.main__inner {
+  @include m-inner();
+}
