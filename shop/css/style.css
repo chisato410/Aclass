@@ -278,4 +278,11 @@ main {
 .result p {
   margin-bottom: 1em;
 }
+
+/* staff_delete */
+.form__confirm {
+  margin: 1em 0;
+  font-weight: bold;
+  color: #a44a3f;
+}
 /*# sourceMappingURL=style.css.map */
