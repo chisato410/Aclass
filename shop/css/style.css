@@ -285,4 +285,21 @@ main {
   font-weight: bold;
   color: #a44a3f;
 }
+
+/* staff_delete_done */
+.form-container {
+  max-width: 400px;
+  margin: 2em auto;
+  padding: 1.5em;
+  background: #fefefe;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.form__message {
+  font-size: 1.2em;
+  color: #333;
+  margin-bottom: 1.5em;
+}
 /*# sourceMappingURL=style.css.map */
