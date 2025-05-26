@@ -14,7 +14,7 @@ if (!isset($_SESSION['login'])) {
 
 <head>
   <?php include '../common/head.php'; ?>
-  <title>スタッフ修正 | ろくまる農園</title>
+  <title>スタッフ修正実行 | ろくまる農園</title>
 </head>
 
 <body>
