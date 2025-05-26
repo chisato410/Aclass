@@ -1,14 +1,11 @@
 <?php
 session_start();
 session_regenerate_id(true);
-if (isset($_SESSION['login']) == false) {
-  print 'ログインされていません。<br>';
-  print '<a href="../staff_login/staff_login.html">ログイン画面へ</a>';
+
+if (!isset($_SESSION['login'])) {
+  echo 'ログインしていません<br>';
+  echo '<a href="../staff_login/staff_login.html">ログイン画面へ</a>';
   exit();
-} else {
-  print $_SESSION['staff_name'];
-  print 'さんがログイン中 <br> ';
-  print '<br>';
 }
 ?>
 
@@ -17,53 +14,67 @@ if (isset($_SESSION['login']) == false) {
 <html lang="ja">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ろくまる農園</title>
+  <?php include '../common/head.php'; ?>
+  <title>スタッフ追加確認 | ろくまる農園</title>
 </head>
 
 <body>
-  <?php
+  <?php include '../common/header.php'; ?>
 
-  require_once('../common/common.php');
+  <main>
+    <div class="main__inner">
+      <?php
+      require_once('../common/common.php');
+      $post = sanitize($_POST);
 
-  $post = sanitize($_POST);
-  $staff_name = $post['name'];
-  $staff_pass = $post['pass'];
-  $staff_pass2 = $post['pass2'];
+      $staff_name = $post['name'];
+      $staff_pass = $post['pass'];
+      $staff_pass2 = $post['pass2'];
 
+      echo '<div class="form__result">';
 
-  if ($staff_name == '') {
-    print 'スタッフ名が入力されていません。<br>';
-  } else {
-    print 'スタッフ名：';
-    print $staff_name;
-    print '<br>';
-  }
+      $hasError = false;
 
-  if ($staff_pass == '') {
-    print 'パスワードが入力されていません。<br>';
-  }
+      // スタッフ名確認
+      if ($staff_name == '') {
+        echo '<p class="form__error">スタッフ名が入力されていません。</p>';
+        $hasError = true;
+      } else {
+        echo '<p>スタッフ名：' . htmlspecialchars($staff_name, ENT_QUOTES, 'UTF-8') . '</p>';
+      }
 
-  if ($staff_pass != $staff_pass2) {
-    print 'パスワードが一致しません。<br>';
-  }
+      // パスワード確認
+      if ($staff_pass == '') {
+        echo '<p class="form__error">パスワードが入力されていません。</p>';
+        $hasError = true;
+      }
 
-  if ($staff_name == '' || $staff_pass == '' || $staff_pass != $staff_pass2) {
-    print '<form>';
-    print '<input type="button" onclick="history.back()" value="戻る">';
-    print '</form>';
-  } else {
-    $staff_pass = md5($staff_pass);
-    print '<form method="post" action="staff_add_done.php">';
-    print '<input type="hidden" name="name" value="' . $staff_name . '">';
-    print '<input type="hidden" name="pass" value="' . $staff_pass . '">';
-    print '<br>';
-    print '<input type="button" onclick="history.back()" value="戻る">';
-    print '<input type="submit" value="OK">';
-    print '</form>';
-  }
-  ?>
+      if ($staff_pass != $staff_pass2) {
+        echo '<p class="form__error">パスワードが一致しません。</p>';
+        $hasError = true;
+      }
+
+      echo '</div>';
+
+      if ($hasError) {
+        echo '<div class="form__actions">';
+        echo '<form>';
+        echo '<input type="button" onclick="history.back()" value="戻る" class="link-back">';
+        echo '</form>';
+        echo '</div>';
+      } else {
+        $staff_pass = md5($staff_pass);
+        echo '<form method="post" action="staff_add_done.php" class="form">';
+        echo '<input type="hidden" name="name" value="' . htmlspecialchars($staff_name, ENT_QUOTES, 'UTF-8') . '">';
+        echo '<input type="hidden" name="pass" value="' . $staff_pass . '">';
+        echo '<div class="form-actions">';
+        echo '<input type="button" onclick="history.back()" value="戻る" class="link-back">';
+        echo '<input type="submit" value="OK" class="main__submit">';
+        echo '</div>';
+        echo '</form>';
+      }
+      ?> </div>
+  </main>
 </body>
 
 </html>
