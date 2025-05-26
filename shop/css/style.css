@@ -34,6 +34,8 @@ h6 {
 }
 
 input[type=text],
+input[type=email],
+input[type=password],
 textarea,
 select {
   font: inherit;
@@ -46,12 +48,14 @@ select {
   box-sizing: border-box;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-input[type=text]::-moz-placeholder, textarea::-moz-placeholder, select::-moz-placeholder {
+input[type=text]::-moz-placeholder, input[type=email]::-moz-placeholder, input[type=password]::-moz-placeholder, textarea::-moz-placeholder, select::-moz-placeholder {
   color: #000;
   opacity: 0.7;
   font-style: italic;
 }
 input[type=text]::placeholder,
+input[type=email]::placeholder,
+input[type=password]::placeholder,
 textarea::placeholder,
 select::placeholder {
   color: #000;
@@ -59,6 +63,8 @@ select::placeholder {
   font-style: italic;
 }
 input[type=text]:focus,
+input[type=email]:focus,
+input[type=password]:focus,
 textarea:focus,
 select:focus {
   outline: none;
@@ -66,6 +72,8 @@ select:focus {
   box-shadow: 0 0 0 2px rgba(164, 74, 63, 0.2);
 }
 input[type=text]:disabled,
+input[type=email]:disabled,
+input[type=password]:disabled,
 textarea:disabled,
 select:disabled {
   background-color: #eee;
@@ -141,6 +149,7 @@ select:disabled {
 }
 
 .main__submit {
+  width: 120px;
   padding: 0.75em 1.5em;
   color: #fff;
   background-color: #a44a3f;
@@ -246,5 +255,17 @@ main {
 /* staff_list */
 .staff-item {
   margin-bottom: 10px;
+}
+
+/* staff_edit */
+.form-group {
+  margin-top: 20px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 20px;
+  margin-top: 30px;
+  align-items: center;
 }
 /*# sourceMappingURL=style.css.map */

@@ -1,74 +1,83 @@
 <?php
 session_start();
 session_regenerate_id(true);
-if (isset($_SESSION['login']) == false) {
-  print 'ログインされていません。<br>';
-  print '<a href="../staff_login/staff_login.html">ログイン画面へ</a>';
+
+if (!isset($_SESSION['login'])) {
+  echo 'ログインしていません<br>';
+  echo '<a href="../staff_login/staff_login.html">ログイン画面へ</a>';
   exit();
-} else {
-  print $_SESSION['staff_name'];
-  print 'さんがログイン中 <br> ';
-  print '<br>';
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="ja">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ろくまる農園</title>
+  <?php include '../common/head.php'; ?>
+  <title>スタッフ修正 | ろくまる農園</title>
 </head>
 
 <body>
-  <?php
-  try {
-    $staff_code = $_GET['staffcode'];
+  <?php include '../common/header.php'; ?>
 
-    $dsn = 'mysql:dbname=shop;host=localhost;charset=utf8';
-    $user = 'root';
-    $password = 'root';
-    $dbh = new PDO($dsn, $user, $password);
-    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  <main class="main">
+    <div class="main__inner">
+      <?php
+      try {
+        $staff_code = $_GET['staffcode'];
 
-    $sql = 'SELECT name FROM mst_staff WHERE code=?';
-    $stmt = $dbh->prepare($sql);
-    $data[] = $staff_code;
-    $stmt->execute($data);
+        $dsn = 'mysql:dbname=shop;host=localhost;charset=utf8';
+        $user = 'root';
+        $password = 'root';
+        $dbh = new PDO($dsn, $user, $password);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $rec = $stmt->fetch(PDO::FETCH_ASSOC);
-    $staff_name = $rec['name'];
+        $sql = 'SELECT name FROM mst_staff WHERE code=?';
+        $stmt = $dbh->prepare($sql);
+        $data[] = $staff_code;
+        $stmt->execute($data);
 
-    $dbh = null;
-  } catch (Exception $e) {
-    print 'ただいま障害により大変ご迷惑をおかけしております。';
-    print $e->getMessage();
-    exit();
-  }
+        $rec = $stmt->fetch(PDO::FETCH_ASSOC);
+        $staff_name = $rec['name'];
 
-  ?>
+        $dbh = null;
+      } catch (Exception $e) {
+        print 'ただいま障害により大変ご迷惑をおかけしております。';
+        print $e->getMessage();
+        exit();
+      }
+      ?>
 
-  スタッフ修正<br>
-  <br>
-  スタッフコード<br>
-  <?php print $staff_code; ?>
-  <br>
-  <br>
-  <form action="staff_edit_check.php" method="post">
-    <input type="hidden" name="code" value="<?php print $staff_code; ?>">
-    スタッフ名<br>
-    <input type="text" name="name" style="width: 200px;" value="<?php print $staff_name; ?>"><br>
+      <h2>スタッフ修正</h2>
 
-    パスワードを入力してください。<br>
-    <input type="password" name="pass" style="width: 100px;"><br>
-    パスワードをもう一度入力してください。<br>
-    <input type="password" name="pass2" style="width: 100px;"><br>
-    <br>
-    <input type="button" value="戻る" onclick="history.back()">
-    <input type="submit" value="OK">
-  </form>
+      <p>スタッフコード</p>
+      <p><?php print $staff_code; ?></p>
+
+      <form action="staff_edit_check.php" method="post">
+        <input type="hidden" name="code" value="<?php print $staff_code; ?>">
+
+        <div class="form-group">
+          <label for="name">スタッフ名</label><br>
+          <input type="text" id="name" name="name" style="width: 200px;" value="<?php print $staff_name; ?>">
+        </div>
+
+        <div class="form-group">
+          <label for="pass">パスワードを入力してください。</label><br>
+          <input type="password" id="pass" name="pass" style="width: 100px;">
+        </div>
+
+        <div class="form-group">
+          <label for="pass2">パスワードをもう一度入力してください。</label><br>
+          <input type="password" id="pass2" name="pass2" style="width: 100px;">
+        </div>
+
+        <div class="form-actions">
+          <input class="link-back" type="button" value="戻る" onclick="history.back()">
+          <input class="main__submit" type="submit" value="OK">
+        </div>
+      </form>
+    </div>
+  </main>
 </body>
 
 </html>
