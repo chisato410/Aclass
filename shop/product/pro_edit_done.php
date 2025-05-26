@@ -1,14 +1,11 @@
 <?php
 session_start();
 session_regenerate_id(true);
-if (isset($_SESSION['login']) == false) {
-  print 'ログインされていません。<br>';
-  print '<a href="../staff_login/staff_login.html">ログイン画面へ</a>';
+
+if (!isset($_SESSION['login'])) {
+  echo 'ログインしていません<br>';
+  echo '<a href="../staff_login/staff_login.html">ログイン画面へ</a>';
   exit();
-} else {
-  print $_SESSION['staff_name'];
-  print 'さんがログイン中 <br> ';
-  print '<br>';
 }
 ?>
 
@@ -16,55 +13,62 @@ if (isset($_SESSION['login']) == false) {
 <html lang="ja">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ろくまる農園</title>
+  <?php include '../common/head.php'; ?>
+  <title>商品一覧 | ろくまる農園</title>
 </head>
 
 <body>
-  <?php
-  try {
-    require_once('../common/common.php');
-    $post = sanitize($_POST);
+  <?php include '../common/header.php'; ?>
 
-    $pro_code = $post['code'];
-    $pro_name = $post['name'];
-    $pro_price = $post['price'];
-    $pro_gazou_name_old = $post['gazou_name_old'];
-    $pro_gazou_name = $post['gazou_name'];
+  <main class="main">
+    <div class="main__inner">
+      <?php
+      try {
+        require_once('../common/common.php');
 
-    $dsn = 'mysql:dbname=shop;host=localhost;charset=utf8';
-    $user = 'root';
-    $password = 'root';
-    $dbh = new PDO($dsn, $user, $password);
-    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $post = sanitize($_POST);
 
-    $sql = 'UPDATE mst_product SET name=?,price=?,gazou=?  WHERE code=?';
-    $stmt = $dbh->prepare($sql);
-    $data[] = $pro_name;
-    $data[] = $pro_price;
-    $data[] = $pro_gazou_name;
-    $data[] = $pro_code;
-    $stmt->execute($data);
+        $pro_code = $post['code'];
+        $pro_name = $post['name'];
+        $pro_price = $post['price'];
+        $pro_gazou_name_old = $post['gazou_name_old'];
+        $pro_gazou_name = $post['gazou_name'];
 
-    $dbh = null;
+        // DB接続
+        $dsn = 'mysql:dbname=shop;host=localhost;charset=utf8';
+        $user = 'root';
+        $password = 'root';
+        $dbh = new PDO($dsn, $user, $password);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    if ($pro_gazou_name_old != $pro_gazou_name) {
-      if ($pro_gazou_name_old != '') {
-        unlink('./gazou/' . $pro_gazou_name_old);
+        // 更新SQL実行
+        $sql = 'UPDATE mst_product SET name = ?, price = ?, gazou = ? WHERE code = ?';
+        $stmt = $dbh->prepare($sql);
+        $data = [$pro_name, $pro_price, $pro_gazou_name, $pro_code];
+        $stmt->execute($data);
+
+        $dbh = null;
+
+        // 古い画像の削除
+        if ($pro_gazou_name_old !== $pro_gazou_name && $pro_gazou_name_old !== '') {
+          if (file_exists('./gazou/' . $pro_gazou_name_old)) {
+            unlink('./gazou/' . $pro_gazou_name_old);
+          }
+        }
+
+        echo '<p class="result">商品情報を修正しました。</p>';
+      } catch (Exception $e) {
+        echo '<p>ただいま障害によりご迷惑をお掛けしております。</p>';
+        echo '<p class="error">' . htmlspecialchars($e->getMessage()) . '</p>';
+        exit();
       }
-    }
+      ?>
 
-    print '修正しました。<br>';
-  } catch (Exception $e) {
-    print 'ただいま障害により大変ご迷惑をお掛けしております。';
-    print $e->getMessage();
-    exit();
-  }
-
-  ?>
-
-  <a href="pro_list.php">戻る</a>
+      <div class="form-actions">
+        <a href="pro_list.php" class="link-back">商品一覧に戻る</a>
+      </div>
+    </div>
+  </main>
 </body>
 
 </html>
