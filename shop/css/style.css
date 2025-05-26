@@ -296,15 +296,15 @@ main {
   max-width: 400px;
   margin: 2em auto;
   padding: 1.5em;
-  background: #fefefe;
-  border: 1px solid #ddd;
+  background: #eee;
+  border: 1px solid #999;
   border-radius: 8px;
   text-align: center;
 }
 
 .form__message {
   font-size: 1.2em;
-  color: #333;
+  color: #000;
   margin-bottom: 1.5em;
 }
 /*# sourceMappingURL=style.css.map */

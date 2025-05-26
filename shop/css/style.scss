@@ -5,24 +5,13 @@
 // ------------------------
 
 // Colors
-$color-text: #181717;
-$color-bg1: #f5c243;
-$color-bg2: #f4f3ee;
-$color-bg3: #d4854d;
-
-$color-heading1: #fff;
-$color-heading2: #000;
-
-$color-btnBg: #fff;
-$color-btnTx: #000;
-$color-btnBg2: #a44a3f;
-$color-btnTx2: #fff;
-
-$color-highlightTx: #a44a3f;
-$color-highlightBg: #fff;
-
-$color-icons: #f5c243;
-$color-iconsTx: #000;
+$color-black1: #181717;
+$color-black2: #000;
+$color-orange: #d4854d;
+$color-brown: #a44a3f;
+$color-yellow: #f5c243;
+$color-white1: #f4f3ee;
+$color-white2: #fff;
 
 $color-disabledBg1: #eee;
 $color-disabledTx1: #999;
@@ -95,14 +84,14 @@ html {
 body {
   font-family: $font-base;
   font-size: $font-size-base;
-  color: $color-text;
-  background-color: $color-bg2;
+  color: $color-black1;
+  background-color: $color-white1;
   line-height: $line-height-base;
 }
 
 body::selection {
-  background-color: $color-highlightBg;
-  color: $color-highlightTx;
+  background-color: $color-white2;
+  color: $color-brown;
 }
 
 h1,
@@ -111,7 +100,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: $color-heading2;
+  color: $color-black2;
   font-weight: bold;
   line-height: 1.25;
   margin: 0 0 $space-sm;
@@ -127,9 +116,9 @@ input[type="password"],
 textarea,
 select {
   font: inherit;
-  color: $color-text;
-  background-color: $color-highlightBg;
-  border: 1px solid $color-icons;
+  color: $color-black1;
+  background-color: $color-white2;
+  border: 1px solid $color-yellow;
   padding: $space-xs $space-sm;
   border-radius: 4px;
   width: 100%;
@@ -139,15 +128,15 @@ select {
     box-shadow 0.2s ease;
 
   &::placeholder {
-    color: $color-iconsTx;
+    color: $color-black2;
     opacity: 0.7;
     font-style: italic;
   }
 
   &:focus {
     outline: none;
-    border-color: $color-btnBg2;
-    box-shadow: 0 0 0 2px rgba($color-btnBg2, 0.2);
+    border-color: $color-brown;
+    box-shadow: 0 0 0 2px rgba($color-brown, 0.2);
   }
 
   &:disabled {
@@ -175,7 +164,7 @@ select {
   position: relative;
   width: 20px;
   height: 20px;
-  border: 1px solid $color-bg3;
+  border: 1px solid $color-orange;
   border-radius: 9999px;
   cursor: pointer;
 
@@ -187,7 +176,7 @@ select {
     height: 12px;
     margin: auto;
     border-radius: 9999px;
-    background-color: $color-bg3;
+    background-color: $color-orange;
   }
 }
 
@@ -195,18 +184,18 @@ input[type="number"]#price {
   width: 80px; /* 少し広げて見やすく */
   padding: 4px 6px; /* 内側の余白で入力しやすく */
   font-size: 14px; /* 見やすいフォントサイズ */
-  border: 1px solid $color-bg1; /* 枠線を薄く */
+  border: 1px solid $color-yellow; /* 枠線を薄く */
   border-radius: 4px; /* 角を少し丸く */
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1); /* 内側の影で立体感 */
   text-align: right; /* 数字なので右寄せ */
-  background-color: $color-highlightBg;
+  background-color: $color-white2;
 }
 
 input[type="number"]#price:focus {
-  border-color: $color-btnBg2;
-  box-shadow: 0 0 0 2px rgba($color-btnBg2, 0.2);
+  border-color: $color-brown;
+  box-shadow: 0 0 0 2px rgba($color-brown, 0.2);
   outline: none; /* デフォルトの青い枠を除去 */
-  box-shadow: 0 0 0 2px rgba($color-btnBg2, 0.2);
+  box-shadow: 0 0 0 2px rgba($color-brown, 0.2);
 }
 
 // ------------------------
@@ -230,18 +219,18 @@ input[type="number"]#price:focus {
 .main__btn {
   width: 300px;
   padding: $space-xs $space-sm;
-  color: $color-btnTx;
-  background-color: $color-btnBg;
+  color: $color-black2;
+  background-color: $color-white2;
 
   &:hover,
   &:focus {
-    background-color: darken($color-btnBg, 5%);
+    background-color: darken($color-white2, 5%);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     outline: none;
   }
 
   &:active {
-    background-color: darken($color-btnBg, 10%);
+    background-color: darken($color-white2, 10%);
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 }
@@ -249,18 +238,18 @@ input[type="number"]#price:focus {
 .main__submit {
   width: 120px;
   padding: 0.75em 1.5em;
-  color: $color-btnTx2;
-  background-color: $color-btnBg2;
+  color: $color-white2;
+  background-color: $color-brown;
 
   &:hover,
   &:focus {
-    background-color: darken($color-btnBg2, 5%);
+    background-color: darken($color-brown, 5%);
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
     outline: none;
   }
 
   &:active {
-    background-color: darken($color-btnBg2, 10%);
+    background-color: darken($color-brown, 10%);
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
   }
 
@@ -276,9 +265,9 @@ input[type="number"]#price:focus {
   display: inline-block;
   padding: 0.5em 1.2em;
   font-size: 0.95rem;
-  color: $color-highlightTx;
-  background-color: $color-highlightBg;
-  border: 2px solid $color-highlightTx;
+  color: $color-brown;
+  background-color: $color-white2;
+  border: 2px solid $color-brown;
   border-radius: 0.5em;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -288,8 +277,8 @@ input[type="number"]#price:focus {
 
   &:hover,
   &:focus {
-    background-color: $color-highlightTx;
-    color: $color-highlightBg;
+    background-color: $color-brown;
+    color: $color-white2;
     outline: none;
   }
 }
@@ -303,12 +292,12 @@ input[type="number"]#price:focus {
 .link-back {
   display: inline-block;
   text-decoration: none;
-  color: $color-highlightTx;
+  color: $color-brown;
   font-weight: bold;
   transition: color 0.2s ease;
 
   &:hover {
-    color: $color-bg3;
+    color: $color-orange;
   }
 }
 
@@ -317,7 +306,7 @@ input[type="number"]#price:focus {
 // ------------------------
 
 header {
-  background-color: $color-bg1;
+  background-color: $color-yellow;
   padding: $space-sm $space-md;
 }
 
@@ -327,12 +316,12 @@ header {
 
 .header__title {
   font-size: f-rem(32);
-  color: $color-heading1;
+  color: $color-white2;
 }
 
 main {
   padding: $space-lg $space-md;
-  background-color: $color-bg2;
+  background-color: $color-white1;
 }
 
 .main__inner {
@@ -381,21 +370,21 @@ main {
 .form__confirm {
   margin: 1em 0;
   font-weight: bold;
-  color: $color-highlightTx;
+  color: $color-brown;
 }
 
 .form-container {
   max-width: 400px;
   margin: 2em auto;
   padding: 1.5em;
-  background: #fefefe;
-  border: 1px solid #ddd;
+  background: $color-disabledBg1;
+  border: 1px solid $color-disabledTx1;
   border-radius: 8px;
   text-align: center;
 }
 
 .form__message {
   font-size: 1.2em;
-  color: #333;
+  color: $color-black2;
   margin-bottom: 1.5em;
 }
