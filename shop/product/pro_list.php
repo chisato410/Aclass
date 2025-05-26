@@ -1,14 +1,11 @@
 <?php
 session_start();
 session_regenerate_id(true);
-if (isset($_SESSION['login']) == false) {
-  print 'ログインされていません。<br>';
-  print '<a href="../staff_login/staff_login.html">ログイン画面へ</a>';
+
+if (!isset($_SESSION['login'])) {
+  echo 'ログインしていません<br>';
+  echo '<a href="../staff_login/staff_login.html">ログイン画面へ</a>';
   exit();
-} else {
-  print $_SESSION['staff_name'];
-  print 'さんがログイン中 <br> ';
-  print '<br>';
 }
 ?>
 
@@ -17,54 +14,62 @@ if (isset($_SESSION['login']) == false) {
 <html lang="ja">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ろくまる農園</title>
+  <?php include '../common/head.php'; ?>
+  <title>商品一覧 | ろくまる農園</title>
 </head>
 
 <body>
-  <?php
-  try {
-    $dsn = 'mysql:dbname=shop;host=localhost;charset=utf8';
-    $user = 'root';
-    $password = 'root';
-    $dbh = new PDO($dsn, $user, $password);
-    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+  <?php include '../common/header.php'; ?>
 
-    $sql = 'SELECT code,name,price FROM mst_product WHERE 1';
-    $stmt = $dbh->prepare($sql);
-    $stmt->execute();
+  <main class="main">
+    <div class="main__inner">
+      <?php
+      try {
+        $dsn = 'mysql:dbname=shop;host=localhost;charset=utf8';
+        $user = 'root';
+        $password = 'root';
+        $dbh = new PDO($dsn, $user, $password);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    $dbh = null;
+        $sql = 'SELECT code,name,price FROM mst_product WHERE 1';
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute();
 
-    print '商品一覧<br><br>';
-    print '<form method="post" action="pro_branch.php">';
-
-    while (true) {
-      $rec = $stmt->fetch(PDO::FETCH_ASSOC);
-      if ($rec == false) {
-        break;
+        $dbh = null;
+      } catch (Exception $e) {
+        echo '<div class="form__error">';
+        echo '<p>ただいま障害により大変ご迷惑をお掛けしております。</p>';
+        echo '<p>' . $e->getMessage() . '</p>';
+        echo '</div>';
+        exit();
       }
-      print '<input type="radio" name="procode" value="' . $rec['code'] . '">';
-      print $rec['name'] . '---';
-      print $rec['price'] . '円';
-      print '<br>';
-    }
-    print '<input type="submit" value="参照" name="disp">';
-    print '<input type="submit" value="追加" name="add">';
-    print '<input type="submit" value="修正" name="edit">';
-    print '<input type="submit" value="削除"  name="delete">';
-    print '</form>';
-  } catch (Exception $e) {
-    print 'ただいま障害により大変ご迷惑をお掛けしております。';
-    print $e->getMessage();
-    exit();
-  }
-  ?>
+      ?>
 
-  <br>
-  <a href="../staff_login/staff_top.php">トップメニューへ</a>
+      <div class="form__container">
+        <h2 class="form__title">商品一覧</h2>
 
+        <form method="post" action="pro_branch.php" class="form__list">
+          <?php while ($rec = $stmt->fetch(PDO::FETCH_ASSOC)) : ?>
+            <label class="radioItem">
+              <input class="radioButton" type="radio" name="procode" value="<?php echo htmlspecialchars($rec['code']); ?>">
+              <?php echo htmlspecialchars($rec['name']); ?> --- <?php echo htmlspecialchars($rec['price']); ?>円
+            </label>
+          <?php endwhile; ?>
+
+          <div class="form-actions">
+            <input type="submit" value="参照" name="disp" class="sub__btn">
+            <input type="submit" value="追加" name="add" class="sub__btn">
+            <input type="submit" value="修正" name="edit" class="sub__btn">
+            <input type="submit" value="削除" name="delete" class="sub__btn">
+          </div>
+        </form>
+
+        <div class="form-actions">
+          <a href="../staff_login/staff_top.php" class="link-back">トップメニューへ</a>
+        </div>
+      </div>
+    </div>
+  </main>
 </body>
 
 </html>
