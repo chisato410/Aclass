@@ -22,7 +22,7 @@ if (!isset($_SESSION['login'])) {
 
   <main class="main">
     <div class="main__inner">
-      <h2>スタッフ一覧</h2>
+      <h2 class="main__heading">スタッフ一覧</h2>
 
       <?php
       try {
@@ -42,19 +42,23 @@ if (!isset($_SESSION['login'])) {
         echo '<form method="post" action="staff_branch.php" class="staff-form">';
 
         while ($rec = $stmt->fetch(PDO::FETCH_ASSOC)) {
+          $code = htmlspecialchars($rec['code'], ENT_QUOTES, 'UTF-8');
+          $name = htmlspecialchars($rec['name'], ENT_QUOTES, 'UTF-8');
+          $id = 'staff_' . $code;
+
           echo '<div class="staff-item">';
-          echo '<label class="radioItem">';
-          echo '<input type="radio" name="staffcode" class="radioButton" value="' . htmlspecialchars($rec['code'], ENT_QUOTES, 'UTF-8') . '">';
-          echo '<span>' . htmlspecialchars($rec['name'], ENT_QUOTES, 'UTF-8') . '</span>';
-          echo '</label>';
+          echo '<input type="radio" id="' . $id . '" name="staffcode" class="radioButton" value="' . $code . '">';
+          echo '<label class="radioItem" for="' . $id . '">' . $name . '</label>';
           echo '</div>';
         }
 
+        echo '<p class="form-note">スタッフを選択して操作を行ってください。</p>';
+
         echo '<div class="form-buttons">';
-        echo '<input class="sub__btn" type="submit" value="参照" name="disp" class="form-btn">';
-        echo '<input class="sub__btn" type="submit" value="追加" name="add" class="form-btn">';
-        echo '<input class="sub__btn" type="submit" value="修正" name="edit" class="form-btn">';
-        echo '<input class="sub__btn" type="submit" value="削除" name="delete" class="form-btn">';
+        echo '<input class="sub__btn" type="submit" value="参照" name="disp">';
+        echo '<input class="sub__btn" type="submit" value="追加" name="add">';
+        echo '<input class="sub__btn" type="submit" value="修正" name="edit">';
+        echo '<input class="sub__btn" type="submit" value="削除" name="delete">';
         echo '</div>';
 
         echo '</form>';
