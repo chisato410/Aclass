@@ -15,31 +15,33 @@ if (isset($_SESSION['login']) == false) {
 <html>
 
 <head>
-  <meta charset="UTF-8">
-  <title>ショップ管理トップメニュー</title>
+  <?php include '../common/head.php'; ?>
+  <title>注文ダウンロード | ろくまる農園</title>
 </head>
 
 <body>
-  注文ダウンロード
-  <br>
-  <br>
-  <form method="post" action="order_download_done.php">
-    <?php
-    pulldown_year();
-    ?>
-    年
-    <?php
-    pulldown_month();
-    ?>
-    月
-    <?php
-    pulldown_day();
-    ?>
-    日
-    <br>
-    <input type="submit" value="ダウンロードへ">
-  </form>
+  <?php include '../common/header.php'; ?>
 
+  <main class="main">
+    <div class="main__inner">
+      <div class="form-container">
+        <h2 class="form__heading">注文データ ダウンロード</h2>
+
+        <form method="post" action="order_download_done.php" class="form">
+          <div class="form-group2">
+            <?php pulldown_month(); ?>
+            <span>月</span>
+            <?php pulldown_day(); ?>
+            <span>日</span>
+          </div>
+
+          <div class="form__actions">
+            <input type="submit" class="main__submit" value="ダウンロードへ">
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
 </body>
 
 </html>
