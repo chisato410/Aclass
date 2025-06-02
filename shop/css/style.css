@@ -359,4 +359,11 @@ main {
   color: #000;
   margin-bottom: 1.5em;
 }
+
+.main__login-user {
+  font-size: 18px;
+  font-weight: bold;
+  color: #a44a3f;
+  margin-bottom: 16px;
+}
 /*# sourceMappingURL=style.css.map */
