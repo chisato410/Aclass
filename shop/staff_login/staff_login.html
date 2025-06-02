@@ -8,6 +8,10 @@
       href="https://cdn.jsdelivr.net/npm/the-new-css-reset/css/reset.min.css"
     />
     <link rel="stylesheet" href="../css/style.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
     <title>スタッフログイン | ろくまる農園</title>
   </head>
 
@@ -47,16 +51,25 @@
 
           <div class="main__form-group">
             <label for="pass" class="main__label">パスワード</label>
-            <input
-              type="password"
-              id="pass"
-              name="pass"
-              class="main__input"
-              required
-              autocomplete="current-password"
-            />
+            <div class="main__input-wrapper">
+              <input
+                type="password"
+                id="pass"
+                name="pass"
+                class="main__input"
+                required
+                autocomplete="current-password"
+              />
+              <button
+                type="button"
+                id="togglePassword"
+                class="main__toggle-password"
+                aria-label="パスワード表示切替"
+              >
+                <i class="fa-solid fa-eye-slash"></i>
+              </button>
+            </div>
           </div>
-
           <div class="main__form-group">
             <input type="submit" value="ログイン" class="main__submit" />
           </div>
@@ -64,4 +77,22 @@
       </div>
     </main>
   </body>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const toggleBtn = document.getElementById("togglePassword");
+      const passwordInput = document.getElementById("pass");
+      const icon = toggleBtn.querySelector("i");
+
+      toggleBtn.addEventListener("click", () => {
+        const isVisible = passwordInput.type === "text";
+
+        // パスワード表示・非表示を切り替え
+        passwordInput.type = isVisible ? "password" : "text";
+
+        // アイコンを正しく切り替え（開く＝fa-eye、閉じる＝fa-eye-slash）
+        icon.classList.remove(isVisible ? "fa-eye" : "fa-eye-slash");
+        icon.classList.add(isVisible ? "fa-eye-slash" : "fa-eye");
+      });
+    });
+  </script>
 </html>
