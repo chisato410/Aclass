@@ -9,7 +9,6 @@ if (!isset($_SESSION['login'])) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -43,15 +42,27 @@ if (!isset($_SESSION['login'])) {
         echo '<p>スタッフ名：' . htmlspecialchars($staff_name, ENT_QUOTES, 'UTF-8') . '</p>';
       }
 
-      // パスワード確認
-      if ($staff_pass == '') {
+      // パスワード空チェック
+      if ($staff_pass === '') {
         echo '<p class="form__error">パスワードが入力されていません。</p>';
         $hasError = true;
       }
 
-      if ($staff_pass != $staff_pass2) {
+      // パスワード一致確認
+      if ($staff_pass !== $staff_pass2) {
         echo '<p class="form__error">パスワードが一致しません。</p>';
         $hasError = true;
+      }
+
+      // パスワード強度チェック
+      if (!$hasError) {
+        if (strlen($staff_pass) < 8) {
+          echo '<p class="form__error">パスワードは8文字以上で入力してください。</p>';
+          $hasError = true;
+        } elseif (!preg_match('/[A-Za-z]/', $staff_pass) || !preg_match('/[0-9]/', $staff_pass)) {
+          echo '<p class="form__error">パスワードは英字と数字を含めてください。</p>';
+          $hasError = true;
+        }
       }
 
       echo '</div>';
@@ -63,17 +74,19 @@ if (!isset($_SESSION['login'])) {
         echo '</form>';
         echo '</div>';
       } else {
-        $staff_pass = md5($staff_pass);
+        // パスワードをハッシュ化（セキュア）
+        $hashed_pass = password_hash($staff_pass, PASSWORD_DEFAULT);
         echo '<form method="post" action="staff_add_done.php" class="form">';
         echo '<input type="hidden" name="name" value="' . htmlspecialchars($staff_name, ENT_QUOTES, 'UTF-8') . '">';
-        echo '<input type="hidden" name="pass" value="' . $staff_pass . '">';
+        echo '<input type="hidden" name="pass" value="' . $hashed_pass . '">';
         echo '<div class="form-actions">';
         echo '<input type="button" onclick="history.back()" value="戻る" class="link-back">';
         echo '<input type="submit" value="OK" class="main__submit">';
         echo '</div>';
         echo '</form>';
       }
-      ?> </div>
+      ?>
+    </div>
   </main>
 </body>
 

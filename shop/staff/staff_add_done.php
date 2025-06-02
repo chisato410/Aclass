@@ -9,7 +9,6 @@ if (!isset($_SESSION['login'])) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -28,7 +27,7 @@ if (!isset($_SESSION['login'])) {
         require_once('../common/common.php');
         $post = sanitize($_POST);
         $staff_name = $post['name'];
-        $staff_pass = $post['pass'];
+        $staff_pass = password_hash($post['pass'], PASSWORD_DEFAULT); // セキュアなハッシュ化
 
         $dsn = 'mysql:dbname=shop;host=localhost;charset=utf8';
         $user = 'root';
@@ -38,8 +37,7 @@ if (!isset($_SESSION['login'])) {
 
         $sql = 'INSERT INTO mst_staff(name,password) VALUES (?,?)';
         $stmt = $dbh->prepare($sql);
-        $data[] = $staff_name;
-        $data[] = $staff_pass;
+        $data = [$staff_name, $staff_pass];
         $stmt->execute($data);
 
         $dbh = null;
@@ -50,7 +48,8 @@ if (!isset($_SESSION['login'])) {
       } catch (Exception $e) {
         echo '<div class="form__error">';
         echo '<p>ただいま障害により大変ご迷惑をお掛けしております。</p>';
-        echo '<p>' . $e->getMessage() . '</p>';
+        // error_log($e->getMessage()); // 本番運用時はこちらだけ
+        echo '<p>' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8') . '</p>'; // 開発中のみ
         echo '</div>';
         exit();
       }
