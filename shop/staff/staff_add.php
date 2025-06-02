@@ -15,24 +15,6 @@ if (!isset($_SESSION['login'])) {
 <head>
   <?php include '../common/head.php'; ?>
   <title>スタッフ追加 | ろくまる農園</title>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const pass1 = document.getElementById('pass');
-      const pass2 = document.getElementById('pass2');
-      const submitBtn = document.querySelector('.main__submit');
-
-      function validatePasswords() {
-        if (pass1.value !== pass2.value) {
-          pass2.setCustomValidity('パスワードが一致しません');
-        } else {
-          pass2.setCustomValidity('');
-        }
-      }
-
-      pass1.addEventListener('input', validatePasswords);
-      pass2.addEventListener('input', validatePasswords);
-    });
-  </script>
 </head>
 
 <body>
@@ -42,7 +24,7 @@ if (!isset($_SESSION['login'])) {
     <div class="main__inner">
       <h2 class="form__title">スタッフ追加</h2>
 
-      <form method="post" action="staff_add_check.php" class="form">
+      <form method="post" action="staff_add_check.php" class="form" novalidate>
 
         <div class="form-group">
           <label for="name">スタッフ名を入力してください。</label>
@@ -51,28 +33,12 @@ if (!isset($_SESSION['login'])) {
 
         <div class="form-group">
           <label for="pass">パスワードを入力してください。</label>
-          <input
-            type="password"
-            name="pass"
-            id="pass"
-            class="form__input"
-            style="width: 100px;"
-            autocomplete="off"
-            required
-            pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"
-            title="8文字以上の英字と数字を含めてください">
+          <input type="password" name="pass" id="pass" class="form__input" style="width: 100px;" autocomplete="off" required>
         </div>
 
         <div class="form-group">
           <label for="pass2">パスワードをもう１度入力してください。</label>
-          <input
-            type="password"
-            name="pass2"
-            id="pass2"
-            class="form__input"
-            style="width: 100px;"
-            autocomplete="off"
-            required>
+          <input type="password" name="pass2" id="pass2" class="form__input" style="width: 100px;" autocomplete="off" required>
         </div>
 
         <div class="form-actions">
