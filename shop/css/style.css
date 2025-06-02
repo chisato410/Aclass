@@ -205,6 +205,10 @@ input[type=number]#price:focus {
   outline: none;
 }
 
+.sub2__btn {
+  width: 350px;
+}
+
 .form-buttons {
   display: flex;
   gap: 10px;
@@ -220,6 +224,12 @@ input[type=number]#price:focus {
 }
 .link-back:hover {
   color: #d4854d;
+}
+
+.link-back2 {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
 }
 
 header {
