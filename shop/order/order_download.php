@@ -28,11 +28,15 @@ if (isset($_SESSION['login']) == false) {
         <h2 class="form__heading">注文データ ダウンロード</h2>
 
         <form method="post" action="order_download_done.php" class="form">
-          <div class="form-group2">
-            <?php pulldown_month(); ?>
-            <span>月</span>
-            <?php pulldown_day(); ?>
-            <span>日</span>
+          <div class="date-select-wrapper">
+            <div class="form-group2">
+              <?php pulldown_month(); ?>
+              <span>月</span>
+            </div>
+            <div class="form-group2">
+              <?php pulldown_day(); ?>
+              <span>日</span>
+            </div>
           </div>
 
           <div class="form__actions">
