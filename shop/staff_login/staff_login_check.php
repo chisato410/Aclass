@@ -1,73 +1,69 @@
 <?php
-/*session_start();
-session_regenerate_id(true);
-if (isset($_SESSION['login']) == false) {
-  print 'ログインされていません。<br>';
-  print '<a href="../staff_login/staff_login.html">ログイン画面へ</a>';
-  exit();
-} else {
-  print $_SESSION['staff_name'];
-  print 'さんがログイン中 <br> ';
-  print '<br>';
-}*/
-?>
+require_once('../common/common.php');
 
+session_start();
+session_regenerate_id(true);
+
+try {
+  $post = sanitize($_POST);
+  $staff_code = $post['code'];
+  $staff_pass = md5($post['pass']); // パスワードをMD5でハッシュ化（本番はpassword_hashが推奨）
+
+  // DB接続
+  $dsn = 'mysql:dbname=shop;host=localhost;charset=utf8';
+  $user = 'root';
+  $password = 'root';
+  $dbh = new PDO($dsn, $user, $password);
+  $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+  // スタッフの認証
+  $sql = 'SELECT name FROM mst_staff WHERE code=? AND password=?';
+  $stmt = $dbh->prepare($sql);
+  $stmt->execute([$staff_code, $staff_pass]);
+
+  $rec = $stmt->fetch(PDO::FETCH_ASSOC);
+  $dbh = null;
+
+  if (!$rec) {
+    $error_message = 'スタッフコードかパスワードが間違っています。';
+  } else {
+    $_SESSION['login'] = true;
+    $_SESSION['staff_code'] = $staff_code;
+    $_SESSION['staff_name'] = $rec['name'];
+    header('Location:staff_top.php');
+    exit();
+  }
+} catch (Exception $e) {
+  $error_message = 'ただいま障害により大変ご迷惑をお掛けしております。';
+  $error_detail = $e->getMessage();
+}
+?>
 
 <!DOCTYPE html>
 <html lang="ja">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ろくまる農園</title>
+  <?php include '../common/head.php'; ?>
+  <title>ログインチェック | ろくまる農園</title>
 </head>
 
 <body>
-  <?php
-  require_once('../common/common.php');
-  $post = sanitize($_POST);
+  <?php include '../common/header.php'; ?>
 
-  try {
-    $staff_code = $post['code'];
-    $staff_pass = $post['pass'];
+  <main class="main">
+    <div class="main__inner">
+      <h2>ログインエラー</h2>
 
-    $staff_pass = md5($staff_pass); // パスワードをMD5でハッシュ化
+      <?php if (isset($error_message)) : ?>
+        <p><?php echo htmlspecialchars($error_message, ENT_QUOTES, 'UTF-8'); ?></p>
+        <p><a href="staff_login.html" class="link-back">ログイン画面へ戻る</a></p>
+      <?php endif; ?>
 
-    $dsn = 'mysql:dbname=shop;host=localhost;charset=utf8';
-    $user = 'root';
-    $password = 'root';
-    $dbh = new PDO($dsn, $user, $password);
-    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    $sql = 'SELECT name FROM mst_staff WHERE code=? AND password=?';
-    $stmt = $dbh->prepare($sql);
-
-    $data = array(); // ←配列を初期化
-    $data[] = $staff_code;
-    $data[] = $staff_pass;
-    $stmt->execute($data);
-
-    $dbh = null;
-
-    $rec = $stmt->fetch(PDO::FETCH_ASSOC);
-
-    if ($rec == false) {
-      print 'スタッフコードかパスワードが間違っています。<br>';
-      print '<a href="staff_login.html">戻る</a>';
-    } else {
-      session_start();
-      $_SESSION['login'] = 1;
-      $_SESSION['$staff_code'] = $staff_code;
-      $_SESSION['$staff_name'] = $rec['name'];
-      header('Location:staff_top.php');
-      exit();
-    }
-  } catch (Exception $e) {
-    print 'ただいま障害により大変ご迷惑お掛けしております。';
-    print $e->getMessage();
-    exit();
-  }
-  ?>
+      <?php if (isset($error_detail)) : ?>
+        <p class="error-detail"><?php echo htmlspecialchars($error_detail, ENT_QUOTES, 'UTF-8'); ?></p>
+      <?php endif; ?>
+    </div>
+  </main>
 </body>
 
 </html>
