@@ -24,8 +24,7 @@ if (!isset($_SESSION['login'])) {
     <div class="main__inner">
       <h2 class="form__title">スタッフ追加</h2>
 
-      <form method="post" action="staff_add_check.php" class="form" novalidate>
-
+      <form method="post" action="staff_add_check.php" class="form">
         <div class="form-group">
           <label for="name">スタッフ名を入力してください。</label>
           <input type="text" name="name" id="name" class="form__input" style="width: 200px;" required>
@@ -45,7 +44,6 @@ if (!isset($_SESSION['login'])) {
           <input type="button" onclick="history.back()" value="戻る" class="link-back">
           <input type="submit" value="OK" class="main__submit">
         </div>
-
       </form>
     </div>
   </main>

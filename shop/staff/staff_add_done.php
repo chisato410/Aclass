@@ -9,7 +9,6 @@ if (!isset($_SESSION['login'])) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -26,9 +25,14 @@ if (!isset($_SESSION['login'])) {
       <?php
       try {
         require_once('../common/common.php');
+
+        if (!isset($_POST['name'], $_POST['pass'])) {
+          throw new Exception('不正なアクセスです。');
+        }
+
         $post = sanitize($_POST);
         $staff_name = $post['name'];
-        $staff_pass = $post['pass'];
+        $staff_pass = $post['pass']; // すでにハッシュ済み
 
         $dsn = 'mysql:dbname=shop;host=localhost;charset=utf8';
         $user = 'root';
@@ -38,9 +42,7 @@ if (!isset($_SESSION['login'])) {
 
         $sql = 'INSERT INTO mst_staff(name,password) VALUES (?,?)';
         $stmt = $dbh->prepare($sql);
-        $data[] = $staff_name;
-        $data[] = $staff_pass;
-        $stmt->execute($data);
+        $stmt->execute([$staff_name, $staff_pass]);
 
         $dbh = null;
 
@@ -49,8 +51,8 @@ if (!isset($_SESSION['login'])) {
         echo '</div>';
       } catch (Exception $e) {
         echo '<div class="form__error">';
-        echo '<p>ただいま障害により大変ご迷惑をお掛けしております。</p>';
-        echo '<p>' . $e->getMessage() . '</p>';
+        echo '<p>ただいま障害によりご迷惑をおかけしております。</p>';
+        // echo '<p>' . $e->getMessage() . '</p>'; // 開発時のみ出力
         echo '</div>';
         exit();
       }
