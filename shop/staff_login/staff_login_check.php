@@ -1,30 +1,27 @@
 <?php
 require_once('../common/common.php');
-
 session_start();
 session_regenerate_id(true);
 
 try {
   $post = sanitize($_POST);
   $staff_code = $post['code'];
-  $staff_pass = md5($post['pass']); // パスワードをMD5でハッシュ化（本番はpassword_hashが推奨）
+  $staff_pass = $post['pass'];
 
-  // DB接続
   $dsn = 'mysql:dbname=shop;host=localhost;charset=utf8';
   $user = 'root';
   $password = 'root';
   $dbh = new PDO($dsn, $user, $password);
   $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-  // スタッフの認証
-  $sql = 'SELECT name FROM mst_staff WHERE code=? AND password=?';
+  $sql = 'SELECT name, password FROM mst_staff WHERE code = ?';
   $stmt = $dbh->prepare($sql);
-  $stmt->execute([$staff_code, $staff_pass]);
+  $stmt->execute([$staff_code]);
 
   $rec = $stmt->fetch(PDO::FETCH_ASSOC);
   $dbh = null;
 
-  if (!$rec) {
+  if (!$rec || !password_verify($staff_pass, $rec['password'])) {
     $error_message = 'スタッフコードかパスワードが間違っています。';
   } else {
     $_SESSION['login'] = true;

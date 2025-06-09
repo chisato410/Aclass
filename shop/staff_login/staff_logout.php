@@ -1,17 +1,29 @@
 <?php
 session_start();
 
-// セッション変数を空に
+// セッション変数をクリア
 $_SESSION = [];
 
-// セッションIDに関連付けられたクッキーの削除
-if (isset($_COOKIE[session_name()])) {
-  setcookie(session_name(), '', time() - 42000, '/');
+// セッションクッキーの削除
+if (ini_get('session.use_cookies')) {
+  $params = session_get_cookie_params();
+  setcookie(
+    session_name(),
+    '',
+    time() - 42000,
+    $params['path'],
+    $params['domain'],
+    $params['secure'],
+    $params['httponly']
+  );
 }
 
-// セッションの破棄
+// セッション破棄
 session_destroy();
 ?>
+
+<!DOCTYPE html>
+<html lang="ja">
 
 <head>
   <?php include '../common/head.php'; ?>
@@ -21,14 +33,12 @@ session_destroy();
 <body>
   <?php include '../common/header.php'; ?>
 
-
   <main class="main">
-    <main class="main__inner">
+    <div class="main__inner">
       <p class="result">ログアウトしました。</p>
       <p><a href="../staff_login/staff_login.html" class="link-back">ログイン画面へ</a></p>
-    </main>
+    </div>
   </main>
-
 </body>
 
 </html>
