@@ -36,6 +36,7 @@ h6 {
 input[type=text],
 input[type=email],
 input[type=password],
+input[type=tel],
 textarea,
 select {
   font: inherit;
@@ -48,7 +49,7 @@ select {
   box-sizing: border-box;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
-input[type=text]::-moz-placeholder, input[type=email]::-moz-placeholder, input[type=password]::-moz-placeholder, textarea::-moz-placeholder, select::-moz-placeholder {
+input[type=text]::-moz-placeholder, input[type=email]::-moz-placeholder, input[type=password]::-moz-placeholder, input[type=tel]::-moz-placeholder, textarea::-moz-placeholder, select::-moz-placeholder {
   color: #000;
   opacity: 0.7;
   font-style: italic;
@@ -56,6 +57,7 @@ input[type=text]::-moz-placeholder, input[type=email]::-moz-placeholder, input[t
 input[type=text]::placeholder,
 input[type=email]::placeholder,
 input[type=password]::placeholder,
+input[type=tel]::placeholder,
 textarea::placeholder,
 select::placeholder {
   color: #000;
@@ -65,6 +67,7 @@ select::placeholder {
 input[type=text]:focus,
 input[type=email]:focus,
 input[type=password]:focus,
+input[type=tel]:focus,
 textarea:focus,
 select:focus {
   outline: none;
@@ -74,6 +77,7 @@ select:focus {
 input[type=text]:disabled,
 input[type=email]:disabled,
 input[type=password]:disabled,
+input[type=tel]:disabled,
 textarea:disabled,
 select:disabled {
   background-color: #eee;
@@ -228,7 +232,7 @@ input[type=number]#price:focus {
 
 .form-buttons {
   display: flex;
-  gap: 10px;
+  gap: 15px;
   margin-top: 20px;
 }
 

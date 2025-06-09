@@ -113,6 +113,7 @@ h6 {
 input[type="text"],
 input[type="email"],
 input[type="password"],
+input[type="tel"],
 textarea,
 select {
   font: inherit;
@@ -305,7 +306,7 @@ input[type="number"]#price:focus {
 
 .form-buttons {
   display: flex;
-  gap: 10px;
+  gap: 15px;
   margin-top: 20px;
 }
 
