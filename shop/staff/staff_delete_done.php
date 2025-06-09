@@ -9,13 +9,12 @@ if (!isset($_SESSION['login'])) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="ja">
 
 <head>
   <?php include '../common/head.php'; ?>
-  <title>スタッフ削除実行 | ろくまる農園</title>
+  <title>スタッフ削除完了 | ろくまる農園</title>
 </head>
 
 <body>
@@ -25,6 +24,10 @@ if (!isset($_SESSION['login'])) {
     <div class="main__inner">
       <?php
       try {
+        if (!isset($_POST['code']) || !is_numeric($_POST['code'])) {
+          throw new Exception('不正なリクエストです。');
+        }
+
         $staff_code = $_POST['code'];
 
         $dsn = 'mysql:dbname=shop;host=localhost;charset=utf8';
@@ -33,24 +36,23 @@ if (!isset($_SESSION['login'])) {
         $dbh = new PDO($dsn, $user, $password);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $sql = 'DELETE FROM mst_staff WHERE code=?';
+        $sql = 'DELETE FROM mst_staff WHERE code = ?';
         $stmt = $dbh->prepare($sql);
-        $data[] = $staff_code;
-        $stmt->execute($data);
+        $stmt->execute([$staff_code]);
 
         $dbh = null;
       } catch (Exception $e) {
         echo '<div class="form__error">';
-        echo '<p>ただいま障害により大変ご迷惑をお掛けしております。</p>';
-        echo '<p>' . $e->getMessage() . '</p>';
+        echo '<p>エラーが発生しました：</p>';
+        echo '<p>' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8') . '</p>';
         echo '</div>';
         exit();
       }
       ?>
 
       <div class="form-container">
-        <p class="form__message">削除しました。</p>
-        <a class="link-back" href="staff_list.php">戻る</a>
+        <p class="form__message">スタッフを削除しました。</p>
+        <a class="link-back" href="staff_list.php">スタッフ一覧へ戻る</a>
       </div>
     </div>
   </main>
