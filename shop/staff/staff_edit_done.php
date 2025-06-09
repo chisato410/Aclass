@@ -9,7 +9,6 @@ if (!isset($_SESSION['login'])) {
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="ja">
 
@@ -27,9 +26,13 @@ if (!isset($_SESSION['login'])) {
       try {
         require_once('../common/common.php');
         $post = sanitize($_POST);
+
         $staff_code = $post['code'];
-        $staff_name = $post['name'];
-        $staff_pass = $post['pass'];
+        $staff_name = trim($post['name']);
+        $staff_pass_plain = $post['pass'];
+
+        // パスワードのハッシュ化（PASSWORD_DEFAULTはアルゴリズム変更時も安全）
+        $staff_pass_hashed = password_hash($staff_pass_plain, PASSWORD_DEFAULT);
 
         $dsn = 'mysql:dbname=shop;host=localhost;charset=utf8';
         $user = 'root';
@@ -37,14 +40,13 @@ if (!isset($_SESSION['login'])) {
         $dbh = new PDO($dsn, $user, $password);
         $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        $sql = 'UPDATE mst_staff SET name=?,password=? WHERE code=?';
+        $sql = 'UPDATE mst_staff SET name=?, password=? WHERE code=?';
         $stmt = $dbh->prepare($sql);
-        $data = [$staff_name, $staff_pass, $staff_code];
-        $stmt->execute($data);
+        $stmt->execute([$staff_name, $staff_pass_hashed, $staff_code]);
 
         $dbh = null;
       } catch (Exception $e) {
-        echo '<div class="error">';
+        echo '<div class="form__error">';
         echo '<p>ただいま障害により大変ご迷惑をお掛けしております。</p>';
         echo '<p>' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8') . '</p>';
         echo '</div>';
