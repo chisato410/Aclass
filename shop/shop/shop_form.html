@@ -104,24 +104,30 @@
             <!-- 会員登録（任意） -->
             <div class="form-group">
               <p>※会員登録する方は以下の項目も入力してください。</p>
-              <div class="form-group2">
+              <div class="form-group2 main__input-wrapper">
                 <label for="pass">パスワードを入力してください。</label><br />
-                <input
-                  type="password"
-                  id="pass"
-                  name="pass"
-                  style="width: 100px"
-                />
+                <input type="password" id="pass" name="pass" />
+                <button
+                  type="button"
+                  id="togglePassword"
+                  class="main__toggle-password"
+                  aria-label="パスワード表示切替"
+                >
+                  <i class="fa-solid fa-eye-slash"></i>
+                </button>
               </div>
-              <div class="form-group2">
+              <div class="form-group2 main__input-wrapper">
                 <label for="pass2">パスワードをもう一度入力してください。</label
                 ><br />
-                <input
-                  type="password"
-                  id="pass2"
-                  name="pass2"
-                  style="width: 100px"
-                />
+                <input type="password" id="pass2" name="pass2" />
+                <button
+                  type="button"
+                  id="togglePassword"
+                  class="main__toggle-password"
+                  aria-label="パスワード表示切替"
+                >
+                  <i class="fa-solid fa-eye-slash"></i>
+                </button>
               </div>
             </div>
             <!-- 性別 -->
@@ -152,7 +158,7 @@
             <!-- 生まれ年 -->
             <div class="form-group2">
               <label for="birth">生まれ年</label><br />
-              <select id="birth" name="birth">
+              <select id="birth" name="birth" style="width: 200px">
                 <option value="1950">1950年代</option>
                 <option value="1960">1960年代</option>
                 <option value="1970">1970年代</option>
@@ -188,6 +194,23 @@
           "member",
           !document.getElementById("chumontouroku").checked
         );
+      });
+    });
+
+    document.addEventListener("DOMContentLoaded", function () {
+      const toggleBtn = document.getElementById("togglePassword");
+      const passwordInput = document.getElementById("pass");
+      const icon = toggleBtn.querySelector("i");
+
+      toggleBtn.addEventListener("click", () => {
+        const isVisible = passwordInput.type === "text";
+
+        // パスワード表示・非表示を切り替え
+        passwordInput.type = isVisible ? "password" : "text";
+
+        // アイコンを正しく切り替え（開く＝fa-eye、閉じる＝fa-eye-slash）
+        icon.classList.remove(isVisible ? "fa-eye" : "fa-eye-slash");
+        icon.classList.add(isVisible ? "fa-eye-slash" : "fa-eye");
       });
     });
   </script>

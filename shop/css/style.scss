@@ -384,7 +384,7 @@ main {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: $space-sm;
+  margin: $space-sm 0;
 
   select {
     width: auto;
