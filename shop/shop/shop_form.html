@@ -14,7 +14,6 @@
     />
     <title>お客様情報入力フォーム | ろくまる農園</title>
   </head>
-
   <body>
     <header class="header">
       <div class="header__inner">
@@ -27,39 +26,35 @@
         <h2 class="main__heading">お客様情報を入力してください。</h2>
 
         <form method="post" action="shop_form_check.php" class="form">
-          <!-- お名前 -->
           <div class="form-group2">
-            <label for="onamae">お名前</label><br />
+            <label for="onamae">お名前</label>
             <input type="text" id="onamae" name="onamae" style="width: 200px" />
           </div>
 
-          <!-- メール -->
           <div class="form-group2">
-            <label for="email">メールアドレス</label><br />
+            <label for="email">メールアドレス</label>
             <input type="email" id="email" name="email" style="width: 200px" />
           </div>
 
-          <!-- 郵便番号 -->
           <div class="form-group2">
-            <label for="postal1">郵便番号</label><br />
+            <label for="postal1">郵便番号</label>
             <input
               type="text"
               id="postal1"
               name="postal1"
-              style="width: 50px"
+              style="width: 100px"
             />
             -
             <input
               type="text"
               id="postal2"
               name="postal2"
-              style="width: 80px"
+              style="width: 150px"
             />
           </div>
 
-          <!-- 住所 -->
           <div class="form-group2">
-            <label for="address">住所</label><br />
+            <label for="address">住所</label>
             <input
               type="text"
               id="address"
@@ -68,13 +63,11 @@
             />
           </div>
 
-          <!-- 電話番号 -->
           <div class="form-group2">
-            <label for="tel">電話番号</label><br />
-            <input type="tel" id="tel" name="tel" style="width: 150px" />
+            <label for="tel">電話番号</label>
+            <input type="tel" id="tel" name="tel" style="width: 200px" />
           </div>
 
-          <!-- 注文方法 -->
           <div class="form-group">
             <p>注文方法を選択してください：</p>
             <div class="radioItem">
@@ -101,11 +94,10 @@
           </div>
 
           <div class="member">
-            <!-- 会員登録（任意） -->
             <div class="form-group">
               <p>※会員登録する方は以下の項目も入力してください。</p>
               <div class="form-group2 main__input-wrapper">
-                <label for="pass">パスワードを入力してください。</label><br />
+                <label for="pass">パスワードを入力してください。</label>
                 <input type="password" id="pass" name="pass" />
                 <button
                   type="button"
@@ -117,8 +109,9 @@
                 </button>
               </div>
               <div class="form-group2 main__input-wrapper">
-                <label for="pass2">パスワードをもう一度入力してください。</label
-                ><br />
+                <label for="pass2"
+                  >パスワードをもう一度入力してください。</label
+                >
                 <input type="password" id="pass2" name="pass2" />
                 <button
                   type="button"
@@ -130,7 +123,7 @@
                 </button>
               </div>
             </div>
-            <!-- 性別 -->
+
             <div class="form-group">
               <p>性別</p>
               <div class="radioItem">
@@ -155,9 +148,9 @@
                 <label for="jo">女性</label>
               </div>
             </div>
-            <!-- 生まれ年 -->
+
             <div class="form-group2">
-              <label for="birth">生まれ年</label><br />
+              <label for="birth">生まれ年</label>
               <select id="birth" name="birth" style="width: 200px">
                 <option value="1950">1950年代</option>
                 <option value="1960">1960年代</option>
@@ -169,49 +162,46 @@
                 <option value="2020">2010年代</option>
               </select>
             </div>
-            <!-- ボタン -->
-            <div class="form-buttons">
-              <input
-                type="button"
-                onclick="history.back()"
-                value="戻る"
-                class="link-back"
-              />
-              <input type="submit" value="ＯＫ" class="main__submit" />
-            </div>
+          </div>
+
+          <div class="form-buttons">
+            <input
+              type="button"
+              onclick="history.back()"
+              value="戻る"
+              class="link-back"
+            />
+            <input type="submit" value="ＯＫ" class="main__submit" />
           </div>
         </form>
       </div>
     </main>
+
+    <script>
+      const radioButtons = document.querySelectorAll('input[name="chumon"]');
+      const activeForm = document.querySelector(".member");
+
+      radioButtons.forEach((radio) => {
+        radio.addEventListener("change", () => {
+          activeForm.classList.toggle(
+            "member",
+            !document.getElementById("chumontouroku").checked
+          );
+        });
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const toggleBtn = document.getElementById("togglePassword");
+        const passwordInput = document.getElementById("pass");
+        const icon = toggleBtn.querySelector("i");
+
+        toggleBtn.addEventListener("click", () => {
+          const isVisible = passwordInput.type === "text";
+          passwordInput.type = isVisible ? "password" : "text";
+          icon.classList.remove(isVisible ? "fa-eye" : "fa-eye-slash");
+          icon.classList.add(isVisible ? "fa-eye-slash" : "fa-eye");
+        });
+      });
+    </script>
   </body>
-  <script>
-    const radioButtons = document.querySelectorAll('input[name="chumon"]');
-    const activeForm = document.querySelector(".member");
-
-    radioButtons.forEach((radio) => {
-      radio.addEventListener("change", () => {
-        activeForm.classList.toggle(
-          "member",
-          !document.getElementById("chumontouroku").checked
-        );
-      });
-    });
-
-    document.addEventListener("DOMContentLoaded", function () {
-      const toggleBtn = document.getElementById("togglePassword");
-      const passwordInput = document.getElementById("pass");
-      const icon = toggleBtn.querySelector("i");
-
-      toggleBtn.addEventListener("click", () => {
-        const isVisible = passwordInput.type === "text";
-
-        // パスワード表示・非表示を切り替え
-        passwordInput.type = isVisible ? "password" : "text";
-
-        // アイコンを正しく切り替え（開く＝fa-eye、閉じる＝fa-eye-slash）
-        icon.classList.remove(isVisible ? "fa-eye" : "fa-eye-slash");
-        icon.classList.add(isVisible ? "fa-eye-slash" : "fa-eye");
-      });
-    });
-  </script>
 </html>
