@@ -4,10 +4,10 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
+// 設置した場所のパスを指定する
 require('../PHPMailer/src/PHPMailer.php');
 require('../PHPMailer/src/Exception.php');
 require('../PHPMailer/src/SMTP.php');
-// PHPMailer メール送信ライブラリを使う
 
 
 session_start();
