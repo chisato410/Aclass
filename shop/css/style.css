@@ -336,6 +336,14 @@ main {
   color: #000;
 }
 
+.member {
+  display: none;
+}
+
+.member.active {
+  display: block;
+}
+
 .date-select-wrapper {
   display: flex;
   justify-content: center;
