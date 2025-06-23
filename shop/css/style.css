@@ -501,4 +501,11 @@ main {
   border-color: #a44a3f;
   box-shadow: 0 0 0 2px rgba(164, 74, 63, 0.2);
 }
+
+.error-message {
+  color: #a44a3f;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 16px 0;
+}
 /*# sourceMappingURL=style.css.map */
