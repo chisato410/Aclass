@@ -328,6 +328,22 @@ input[type="number"]#price:focus {
   margin-top: 20px;
 }
 
+.login__btn {
+  display: inline-block;
+  padding: 0.4em 1.6em;
+  font-size: 0.8rem;
+  color: $color-brown;
+  text-decoration: none;
+  user-select: none;
+  border: 1px $color-brown solid;
+  border-radius: 20px;
+  transition: 0.4s ease;
+}
+
+.login__btn:hover {
+  color: #fff;
+  background: $color-brown;
+}
 // ------------------------
 // Layout
 // ------------------------
@@ -483,4 +499,62 @@ main {
   color: $color-brown;
   font-weight: bold;
   margin-bottom: $space-xs;
+}
+
+// ------------------------
+// Shop Product List
+// ------------------------
+
+.product-list {
+  margin-top: $space-md;
+  display: flex;
+  flex-direction: column;
+  gap: $space-sm;
+}
+
+.product-list__item {
+  display: block;
+  padding: $space-xs $space-sm;
+  background-color: $color-white2;
+  border: 1px solid $color-yellow;
+  border-radius: 6px;
+  color: $color-black1;
+  text-decoration: none;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+
+  &:hover,
+  &:focus {
+    background-color: lighten($color-yellow, 35%);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    outline: none;
+  }
+}
+
+.product-list__item span {
+  display: inline-block;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.cart-link {
+  display: inline-block;
+  margin-top: $space-md;
+  padding: 0.5em 1.5em;
+  background-color: $color-orange;
+  color: $color-white2;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease;
+
+  &:hover,
+  &:focus {
+    background-color: darken($color-orange, 5%);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    outline: none;
+  }
 }
