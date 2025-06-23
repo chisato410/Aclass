@@ -157,6 +157,21 @@ input[type=number]#price:focus {
   padding: 0;
 }
 
+/* チェックボックス（リセットCSS対策） */
+input[type=checkbox] {
+  appearance: auto; /* ブラウザデフォルト表示に戻す */
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+/* 削除チェックボックス hover時 */
+input[type=checkbox]:hover {
+  outline: 2px solid #a44a3f; /* ろくまる農園カラーイメージ */
+}
+
 .main__btn,
 .main__submit {
   display: inline-block;

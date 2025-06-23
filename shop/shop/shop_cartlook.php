@@ -99,7 +99,7 @@ HTML;
                 <td><?php echo $pro_price[$i]; ?>円</td>
                 <td><input type="number" name="kazu<?php echo $i; ?>" value="<?php echo $kazu[$i]; ?>" class="cart-quantity"></td>
                 <td><?php echo $pro_price[$i] * $kazu[$i]; ?>円</td>
-                <td><input type="checkbox" name="sakujo<?php echo $i; ?>"></td>
+                <td><input value="on" type="checkbox" name="sakujo<?php echo $i; ?>"></td>
               </tr>
             <?php endfor; ?>
           </tbody>
