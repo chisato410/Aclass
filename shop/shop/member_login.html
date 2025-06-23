@@ -3,21 +3,84 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/the-new-css-reset/css/reset.min.css"
+    />
+    <link rel="stylesheet" href="../css/style.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <title>会員ログイン | ろくまる農園</title>
   </head>
   <body>
-    会員ログイン
-    <br />
-    <form method="post" action="member_login_check.php">
-      登録メールアドレス
-      <br />
-      <input type="email" name="email" />
-      <br />
-      パスワード
-      <br />
-      <input type="password" name="pass" />
-      <br />
-      <input type="submit" value="ログイン" />
-    </form>
+    <header class="header">
+      <div class="header__inner">
+        <h1 class="header__title">ろくまる農園</h1>
+      </div>
+    </header>
+    <main class="main">
+      <div class="main__inner">
+        <h2 class="main__heading">会員ログイン</h2>
+        <form action="member_login_check.php" method="post" class="main__form">
+          <div class="main__form-group">
+            <label for="email" class="main__label">登録メールアドレス</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="main__input"
+              required
+              autocomplete="email"
+            />
+          </div>
+
+          <div class="main__form-group">
+            <label for="pass" class="main__label">パスワード</label>
+            <div class="main__input-wrapper">
+              <input
+                type="password"
+                id="pass"
+                name="pass"
+                class="main__input"
+                required
+                autocomplete="current-password"
+              />
+              <button
+                type="button"
+                id="togglePassword"
+                class="main__toggle-password"
+                aria-label="パスワード表示切替"
+              >
+                <i class="fa-solid fa-eye-slash"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="main__form-group">
+            <input type="submit" value="ログイン" class="main__submit" />
+          </div>
+        </form>
+      </div>
+    </main>
   </body>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const toggleBtn = document.getElementById("togglePassword");
+      const passwordInput = document.getElementById("pass");
+      const icon = toggleBtn.querySelector("i");
+
+      toggleBtn.addEventListener("click", () => {
+        const isVisible = passwordInput.type === "text";
+
+        // パスワード表示・非表示を切り替え
+        passwordInput.type = isVisible ? "password" : "text";
+
+        // アイコンを正しく切り替え（開く＝fa-eye、閉じる＝fa-eye-slash）
+        icon.classList.remove(isVisible ? "fa-eye" : "fa-eye-slash");
+        icon.classList.add(isVisible ? "fa-eye-slash" : "fa-eye");
+      });
+    });
+  </script>
 </html>
