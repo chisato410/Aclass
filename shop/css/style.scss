@@ -558,3 +558,39 @@ main {
     outline: none;
   }
 }
+
+.cart-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: $space-lg;
+
+  th,
+  td {
+    padding: $space-xs;
+    text-align: center;
+    border: 1px solid $color-yellow;
+  }
+
+  th {
+    background-color: lighten($color-yellow, 30%);
+    color: $color-black2;
+  }
+
+  td {
+    background-color: $color-white2;
+  }
+}
+
+.cart-quantity {
+  width: 60px;
+  padding: 4px;
+  text-align: right;
+  border: 1px solid $color-yellow;
+  border-radius: 4px;
+
+  &:focus {
+    outline: none;
+    border-color: $color-brown;
+    box-shadow: 0 0 0 2px rgba($color-brown, 0.2);
+  }
+}

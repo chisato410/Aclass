@@ -1,139 +1,122 @@
 <?php
 session_start();
 session_regenerate_id(true);
-if (isset($_SESSION['member_login']) == false) {
-  $member_message = 'ようこそ、ゲスト様 ';
-  $member_message .= '<a href="member_login.html">会員ログイン</a>';
-  $member_message .= '<br><br>';
+
+if (!isset($_SESSION['member_login'])) {
+  $member_message = <<<HTML
+ようこそ、ゲスト様
+<a href="member_login.html" class="login__btn">会員ログイン</a><br><br>
+HTML;
 } else {
-  $member_message = 'ようこそ、';
-  $member_message .= $_SESSION['member_name'];
-  $member_message .= '様 ';
-  $member_message .= '<a href="member_logout.php">ログアウト</a>';
-  $member_message .= '<br><br>';
+  $name = htmlspecialchars($_SESSION['member_name'], ENT_QUOTES, 'UTF-8');
+  $member_message = <<<HTML
+ようこそ、{$name}様
+<a href="member_logout.php" class="login__btn">ログアウト</a><br><br>
+HTML;
 }
 ?>
 <!doctype html>
-<html>
+<html lang="ja">
 
 <head>
   <meta charset="UTF-8">
-  <title> ろくまる農園 商品カート</title>
+  <title>商品カート | ろくまる農園</title>
+  <?php include '../common/head.php'; ?>
 </head>
 
 <body>
+  <?php include '../common/header.php'; ?>
 
-  <?php
+  <main class="main">
+    <div class="main__inner">
+      <?php echo $member_message; ?>
 
-  print $member_message;
-
-
-  try {
-    if (isset($_SESSION['cart']) == true) {
-      $cart = $_SESSION['cart'];
-      $kazu = $_SESSION['kazu'];
-      $max = count($cart);
-    } else {
-      $max = 0;
-    }
-
-    if ($max == 0) {
-      print 'カートに商品が入っていません。';
-      print '<br><br>';
-      print '<a href="shop_list.php">商品一覧に戻る</a>';
-      exit();
-    }
-    // データベースへ接続する
-    $dsn = 'mysql:dbname=shop;host=localhost;charset=utf8mb4';
-    $user = 'root';
-    $password = 'root';
-    $dbh = new PDO($dsn, $user, $password);
-    $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    foreach ($cart as $key => $val) {
-      // データを表示する
-      $sql = 'SELECT code,name,price,gazou FROM mst_product WHERE code=?';
-      $stmt = $dbh->prepare($sql);
-      $data[0] = $val;
-      $stmt->execute($data);
-
-      $rec = $stmt->fetch(PDO::FETCH_ASSOC);
-
-      $pro_name[] = $rec['name'];
-      $pro_price[] = $rec['price'];
-      $pro_gazou_name = $rec['gazou'];
-
-      // 画像があれば表示する
-      if ($pro_gazou_name) {
-        $gazou_file = '../product/gazou/' . $pro_gazou_name;
-        $pro_gazou[] = '<img src="' . $gazou_file . '">';
-      } else {
-        $pro_gazou[] = '';
-      }
-    }
-
-    $dbh = null;
-  } catch (Exception $e) {
-    print 'ただいま障害により大変ご迷惑をおかけしております。';
-    print $e->getMessage(); // エラーメッセージを出す
-    exit();
-  }
-  ?>
-  カートの中は
-  <br>
-  <form method="post" action="kazu_change.php">
-    <table border="1">
-      <tr>
-        <td>商品</td>
-        <td>画像</td>
-        <td>価格</td>
-        <td>数量</td>
-        <td>小計</td>
-        <td>削除</td>
-      </tr>
       <?php
-      for ($i = 0; $i < $max; $i++) {
-      ?>
-        <tr>
-          <td>
-            <?php print $pro_name[$i]; ?>
-          </td>
-          <td>
-            <?php print $pro_gazou[$i]; ?>
-          </td>
-          <td>
-            <?php print $pro_price[$i] . '円'; ?>
-          </td>
-          <td>
-            <?php print '<input type="number" name="kazu' . $i . '" value="' . $kazu[$i] . '">'; ?>
-          </td>
-          <td>
-            <?php print $pro_price[$i] * $kazu[$i] . '円'; ?>
-          </td>
-          <td>
-            <?php print '<input type="checkbox" name="sakujo' . $i . '">';
-            ?>
-          </td>
-        </tr>
-      <?php
+      try {
+        if (isset($_SESSION['cart']) && count($_SESSION['cart']) > 0) {
+          $cart = $_SESSION['cart'];
+          $kazu = $_SESSION['kazu'];
+          $max = count($cart);
+        } else {
+          $max = 0;
+        }
+
+        if ($max === 0) {
+          echo '<p>カートに商品が入っていません。</p>';
+          echo '<a href="shop_list.php" class="link-back">商品一覧に戻る</a>';
+          exit();
+        }
+
+        $dsn = 'mysql:dbname=shop;host=localhost;charset=utf8mb4';
+        $user = 'root';
+        $password = 'root';
+        $dbh = new PDO($dsn, $user, $password);
+        $dbh->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+        foreach ($cart as $key => $val) {
+          $sql = 'SELECT code,name,price,gazou FROM mst_product WHERE code=?';
+          $stmt = $dbh->prepare($sql);
+          $stmt->execute([$val]);
+
+          $rec = $stmt->fetch(PDO::FETCH_ASSOC);
+
+          $pro_name[] = htmlspecialchars($rec['name'], ENT_QUOTES, 'UTF-8');
+          $pro_price[] = $rec['price'];
+          $pro_gazou_name = $rec['gazou'];
+
+          if ($pro_gazou_name) {
+            $gazou_file = '../product/gazou/' . $pro_gazou_name;
+            $pro_gazou[] = '<img src="' . $gazou_file . '" alt="">';
+          } else {
+            $pro_gazou[] = '';
+          }
+        }
+        $dbh = null;
+      } catch (Exception $e) {
+        echo '<p>ただいま障害によりご迷惑をおかけしております。</p>';
+        exit();
       }
       ?>
-    </table>
-    <input type="hidden" name="max" value="<?php print $max; ?>">
-    <input type="submit" value="数量変更">
-    <br>
-    <a href="shop_list.php">商品一覧に戻る</a>
-  </form>
 
-  <br>
-  <a href="shop_form.html">購入手続きへ進む</a>
-  <br>
-  <?php
-  if (isset($_SESSION["member_login"]) == true) {
-    print '<a href="shop_kantan_check.php">会員かんたん注文へ進む</a>';
-    print '<br>';
-  }
-  ?>
+      <p>カートの中身</p>
+      <form method="post" action="kazu_change.php">
+        <table border="1" class="cart-table">
+          <thead>
+            <tr>
+              <th>商品</th>
+              <th>画像</th>
+              <th>価格</th>
+              <th>数量</th>
+              <th>小計</th>
+              <th>削除</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php for ($i = 0; $i < $max; $i++) : ?>
+              <tr>
+                <td><?php echo $pro_name[$i]; ?></td>
+                <td><?php echo $pro_gazou[$i]; ?></td>
+                <td><?php echo $pro_price[$i]; ?>円</td>
+                <td><input type="number" name="kazu<?php echo $i; ?>" value="<?php echo $kazu[$i]; ?>" class="cart-quantity"></td>
+                <td><?php echo $pro_price[$i] * $kazu[$i]; ?>円</td>
+                <td><input type="checkbox" name="sakujo<?php echo $i; ?>"></td>
+              </tr>
+            <?php endfor; ?>
+          </tbody>
+        </table>
+        <input type="hidden" name="max" value="<?php echo $max; ?>">
+        <input type="submit" value="数量変更" class="main__submit">
+      </form>
+
+      <a href="shop_list.php" class="link-back">商品一覧に戻る</a>
+      <br><br>
+      <a href="shop_form.html" class="main__btn">購入手続きへ進む</a>
+      <br><br>
+      <?php if (isset($_SESSION["member_login"])) : ?>
+        <a href="shop_kantan_check.php" class="main__btn">会員かんたん注文へ進む</a>
+      <?php endif; ?>
+    </div>
+  </main>
 </body>
 
 </html>
