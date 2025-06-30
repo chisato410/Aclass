@@ -153,7 +153,8 @@ session_regenerate_id(true);
       }
       ?>
       <br>
-      <a href="shop_list.php">商品画面へ</a>
+      <p>注文完了</p>
+      <a href="shop_list.php" class="link-back">商品画面へ戻る</a>
     </div>
   </main>
 
