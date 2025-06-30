@@ -517,6 +517,10 @@ main {
   box-shadow: 0 0 0 2px rgba(164, 74, 63, 0.2);
 }
 
+.product {
+  white-space: nowrap;
+}
+
 .error-message {
   color: #a44a3f;
   font-size: 18px;

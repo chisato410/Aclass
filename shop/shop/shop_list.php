@@ -48,7 +48,7 @@ HTML;
         print '<div class="product-list">';
         while ($rec = $stmt->fetch(PDO::FETCH_ASSOC)) {
           print '<a href="shop_product.php?procode=' . $rec['code'] . '" class="product-list__item">';
-          print '<span>' . htmlspecialchars($rec['name'], ENT_QUOTES, 'UTF-8') . '</span>';
+          print '<span class="product">' . htmlspecialchars($rec['name'], ENT_QUOTES, 'UTF-8') . '</span>';
           print '--- ';
           print htmlspecialchars($rec['price'], ENT_QUOTES, 'UTF-8') . '円';
           print '</a>';
