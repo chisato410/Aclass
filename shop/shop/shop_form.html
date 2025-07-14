@@ -12,6 +12,7 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     />
+    <script src="https://yubinbango.github.io/yubinbango/yubinbango.js"></script>
     <title>お客様情報入力フォーム | ろくまる農園</title>
   </head>
   <body>
@@ -25,7 +26,10 @@
       <div class="main__inner">
         <h2 class="main__heading">お客様情報を入力してください。</h2>
 
-        <form method="post" action="shop_form_check.php" class="form">
+        <!-- 🔽 住所自動入力対応のクラスを追加 -->
+        <form method="post" action="shop_form_check.php" class="form h-adr">
+          <span class="p-country-name" style="display: none">Japan</span>
+
           <div class="form-group2">
             <label for="onamae">お名前</label>
             <input type="text" id="onamae" name="onamae" style="width: 200px" />
@@ -42,6 +46,8 @@
               type="text"
               id="postal1"
               name="postal1"
+              class="p-postal-code"
+              maxlength="3"
               style="width: 100px"
             />
             -
@@ -49,6 +55,8 @@
               type="text"
               id="postal2"
               name="postal2"
+              class="p-postal-code"
+              maxlength="4"
               style="width: 150px"
             />
           </div>
@@ -59,6 +67,7 @@
               type="text"
               id="address"
               name="address"
+              class="p-region p-locality p-street-address p-extended-address"
               style="width: 500px"
             />
           </div>
@@ -115,7 +124,6 @@
                 <input type="password" id="pass2" name="pass2" />
                 <button
                   type="button"
-                  id="togglePassword"
                   class="main__toggle-password"
                   aria-label="パスワード表示切替"
                 >
@@ -159,7 +167,7 @@
                 <option value="1990">1990年代</option>
                 <option value="2000">2000年代</option>
                 <option value="2010">2010年代</option>
-                <option value="2020">2010年代</option>
+                <option value="2020">2020年代</option>
               </select>
             </div>
           </div>
@@ -178,6 +186,7 @@
     </main>
 
     <script>
+      // 会員登録欄の表示切替
       const radioButtons = document.querySelectorAll('input[name="chumon"]');
       const activeForm = document.querySelector(".member");
 
@@ -190,16 +199,22 @@
         });
       });
 
+      // パスワード表示切り替え
       document.addEventListener("DOMContentLoaded", function () {
-        const toggleBtn = document.getElementById("togglePassword");
-        const passwordInput = document.getElementById("pass");
-        const icon = toggleBtn.querySelector("i");
+        const toggleButtons = document.querySelectorAll(
+          ".main__toggle-password"
+        );
 
-        toggleBtn.addEventListener("click", () => {
-          const isVisible = passwordInput.type === "text";
-          passwordInput.type = isVisible ? "password" : "text";
-          icon.classList.remove(isVisible ? "fa-eye" : "fa-eye-slash");
-          icon.classList.add(isVisible ? "fa-eye-slash" : "fa-eye");
+        toggleButtons.forEach((toggleBtn) => {
+          const input = toggleBtn.previousElementSibling;
+          const icon = toggleBtn.querySelector("i");
+
+          toggleBtn.addEventListener("click", () => {
+            const isVisible = input.type === "text";
+            input.type = isVisible ? "password" : "text";
+            icon.classList.remove(isVisible ? "fa-eye" : "fa-eye-slash");
+            icon.classList.add(isVisible ? "fa-eye-slash" : "fa-eye");
+          });
         });
       });
     </script>
