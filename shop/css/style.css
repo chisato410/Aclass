@@ -537,6 +537,25 @@ main {
      object-position: center;
 }
 
+.cart-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  position: relative;
+}
+
+.cart-count-badge {
+  background: #e63946;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  display: inline-block;
+}
+
 .error-message {
   color: #a44a3f;
   font-size: 18px;

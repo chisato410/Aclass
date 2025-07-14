@@ -2,6 +2,15 @@
 session_start();
 session_regenerate_id(true);
 
+// 🔽 まずカートの個数を最初に定義しておく
+if (isset($_SESSION['cart'])) {
+  $cart = $_SESSION['cart'];
+  $shop_items = count($cart);
+} else {
+  $shop_items = 0;
+}
+
+
 if (!isset($_SESSION['member_login'])) {
   $member_message = <<<HTML
 ようこそ、ゲスト様
@@ -54,7 +63,12 @@ HTML;
           print '</a>';
         }
         print '</div>';
-        print '<a href="shop_cartlook.php" class="cart-link">カートを見る</a>';
+        if ($shop_items > 0) {
+          $count_badge = '<span class="cart-count-badge">' . $shop_items . '</span>';
+        } else {
+          $count_badge = '';
+        }
+        print '<a href="shop_cartlook.php" class="cart-link">カートを見る ' . $count_badge . '</a>';
       } catch (Exception $e) {
         print 'ただいま障害により大変ご迷惑をお掛けしております。';
         exit();
