@@ -663,6 +663,27 @@ td {
   border: 1px solid #ccc;
 }
 
+.quantity-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.quantity-btn {
+  padding: 2px 6px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.cart-message {
+  color: green;
+  margin: 10px 0;
+}
+.cart-total {
+  text-align: right;
+  font-weight: bold;
+  font-size: 18px;
+  padding-top: 10px;
+}
+
 // ------------------------
 // Error Message（kazu_change.phpなど）
 // ------------------------
