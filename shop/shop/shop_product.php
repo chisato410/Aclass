@@ -84,7 +84,9 @@ HTML;
         </tr>
         <tr>
           <th>画像</th>
-          <td><?php echo $disp_gazou; ?></td>
+          <td>
+            <div class="gazou_wrap"><?php echo $disp_gazou; ?></div>
+          </td>
         </tr>
       </table>
 

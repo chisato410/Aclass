@@ -95,7 +95,9 @@ HTML;
             <?php for ($i = 0; $i < $max; $i++) : ?>
               <tr>
                 <td><?php echo $pro_name[$i]; ?></td>
-                <td><?php echo $pro_gazou[$i]; ?></td>
+                <td>
+                  <div class="gazou_wrap"><?php echo $pro_gazou[$i]; ?></div>
+                </td>
                 <td><?php echo $pro_price[$i]; ?>円</td>
                 <td><input type="number" name="kazu<?php echo $i; ?>" value="<?php echo $kazu[$i]; ?>" class="cart-quantity"></td>
                 <td><?php echo $pro_price[$i] * $kazu[$i]; ?>円</td>
